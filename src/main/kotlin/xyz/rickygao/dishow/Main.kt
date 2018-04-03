@@ -46,19 +46,22 @@ fun main(args: Array<String>) {
                         }
                     }
 
-                    path("/catalogs/:catalog-id") {
-                        get(CatalogController::getCatalogById)
-                        path("/dishes") {
-                            get(DishController::getDishesByCatalog)
-                            path("/name/:dish-name") {
-                                get(DishController::getDishesByCatalogAndName)
+                    path("/catalogs") {
+                        path("/:catalog-id") {
+                            get(CatalogController::getCatalogById)
+                            path("/dishes") {
+                                get(DishController::getDishesByCatalog)
+                                path("/name/:dish-name") {
+                                    get(DishController::getDishesByCatalogAndName)
+                                }
                             }
-                        }
-                        path("/comments") {
-                            get(CatalogCommentController::getCatalogCommentsByCatalog)
-                            path("/star/:star") {
+                            path("/comments") {
+                                get(CatalogCommentController::getCatalogCommentsByCatalog)
                                 post(CatalogCommentController::postCatalogComment)
                             }
+                        }
+                        path("/comments/:catalog-comment-id") {
+                            get(CatalogCommentController::getCatalogCommentById)
                         }
                     }
 

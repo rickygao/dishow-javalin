@@ -3,12 +3,19 @@ package xyz.rickygao.dishow.controller
 import io.javalin.Context
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import xyz.rickygao.dishow.bodyAsClass
 import xyz.rickygao.dishow.model.Catalog
 import xyz.rickygao.dishow.model.CatalogComment
 import xyz.rickygao.dishow.model.CatalogComments
 import xyz.rickygao.dishow.model.toMap
 
 object CatalogCommentController {
+
+    fun getCatalogCommentById(ctx: Context) {
+        ctx.json(ctx.param("catalog-comment-id")?.toInt()?.let { ccid ->
+            transaction { CatalogComment[ccid].toMap() }
+        }.orEmpty())
+    }
 
     fun getCatalogCommentsByCatalog(ctx: Context) {
         ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
@@ -19,14 +26,16 @@ object CatalogCommentController {
         })
     }
 
+    private data class CatalogCommentBody(val star: Int, val detail: String?)
+
     fun postCatalogComment(ctx: Context) {
         ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
             ctx.param("star")?.toInt()?.let { star ->
-                ctx.body().let { body ->
+                ctx.bodyAsClass<CatalogCommentBody>().let { body ->
                     mapOf("id" to transaction {
                         CatalogComment.new {
-                            this.star = star
-                            this.detail = body
+                            this.star = body.star
+                            this.detail = body.detail
                             this.catalog = Catalog[cid]
                         }.id.value
                     })

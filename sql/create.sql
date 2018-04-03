@@ -24,19 +24,19 @@ CREATE TABLE IF NOT EXISTS canteens (
   FOREIGN KEY (uid) REFERENCES universities(id) ON DELETE RESTRICT
 );
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(101, '梅园餐厅(学一食堂)', NULL, 117.315904, 39.001469, 1);
+VALUES(101, '梅园餐厅（学一食堂）', NULL, 117.315904, 39.001469, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(102, '兰园餐厅(学二食堂)', NULL, 117.317684, 38.998513, 1);
+VALUES(102, '兰园餐厅（学二食堂）', NULL, 117.317684, 38.998513, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(103, '棠园餐厅(学三食堂)', NULL, 117.312020, 38.998459, 1);
+VALUES(103, '棠园餐厅（学三食堂）', NULL, 117.312020, 38.998459, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(104, '竹园餐厅(学四食堂)', NULL, 117.315815, 38.993515, 1);
+VALUES(104, '竹园餐厅（学四食堂）', NULL, 117.315815, 38.993515, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(105, '桃园餐厅(学五食堂)', NULL, 117.312564, 38.995922, 1);
+VALUES(105, '桃园餐厅（学五食堂）', NULL, 117.312564, 38.995922, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(106, '留园餐厅(留学生食堂)', NULL, 117.315794, 39.002539, 1);
+VALUES(106, '留园餐厅（留学生食堂）', NULL, 117.315794, 39.002539, 1);
 INSERT INTO canteens(id, name, location, longitude, latitude, uid)
-VALUES(107, '菊园餐厅(清真食堂)', NULL, 117.316131, 39.002081, 1);
+VALUES(107, '菊园餐厅（清真食堂）', NULL, 117.316131, 39.002081, 1);
 
 CREATE TABLE IF NOT EXISTS catalogs (
   id INT PRIMARY KEY,
