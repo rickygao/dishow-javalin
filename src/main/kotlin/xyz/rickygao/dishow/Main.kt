@@ -1,8 +1,13 @@
 package xyz.rickygao.dishow
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.javalin.ApiBuilder.*
 import io.javalin.Javalin
 import io.javalin.event.EventType
+import io.javalin.translator.json.JavalinJacksonPlugin
 import org.jetbrains.exposed.dao.EntityNotFoundException
 import org.jetbrains.exposed.sql.Database
 import xyz.rickygao.dishow.controller.*
@@ -13,9 +18,10 @@ fun main(args: Array<String>) {
                 Database.connect(
                         "jdbc:mysql://localhost:3306/dishow",
                         driver = "com.mysql.cj.jdbc.Driver",
-                        user = "root",
-                        password = "dbpassword"
+                        user = "dishow",
+                        password = "dishowpassword"
                 )
+                JavalinJacksonPlugin.configure(ObjectMapper().registerKotlinModule())
             }
             .routes {
 

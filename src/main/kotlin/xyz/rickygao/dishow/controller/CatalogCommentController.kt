@@ -26,20 +26,18 @@ object CatalogCommentController {
         })
     }
 
-    private data class CatalogCommentBody(val star: Int, val detail: String?)
+    private data class CatalogCommentBody(val star: Int, val detail: String? = null)
 
     fun postCatalogComment(ctx: Context) {
         ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
-            ctx.param("star")?.toInt()?.let { star ->
-                ctx.bodyAsClass<CatalogCommentBody>().let { body ->
-                    mapOf("id" to transaction {
-                        CatalogComment.new {
-                            this.star = body.star
-                            this.detail = body.detail
-                            this.catalog = Catalog[cid]
-                        }.id.value
-                    })
-                }
+            ctx.bodyAsClass<CatalogCommentBody>().let { body ->
+                mapOf("id" to transaction {
+                    CatalogComment.new {
+                        this.star = body.star
+                        this.detail = body.detail
+                        this.catalog = Catalog[cid]
+                    }.id.value
+                })
             }
         }.orEmpty())
     }
