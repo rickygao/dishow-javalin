@@ -21,7 +21,17 @@ internal class University(id: EntityID<Int>) : IntEntity(id) {
     var location by Universities.location
     var longitude by Universities.longitude
     var latitude by Universities.latitude
+    val canteens by Canteen referrersOn Canteens.uid
 }
+
+internal fun University.toMapWithDetails() = mapOf(
+        "id" to id.value,
+        "name" to name,
+        "location" to location,
+        "longitude" to longitude,
+        "latitude" to latitude,
+        "canteens" to canteens.map(Canteen::toMap)
+)
 
 internal fun University.toMap() = mapOf(
         "id" to id.value,

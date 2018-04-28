@@ -1,6 +1,16 @@
 DROP DATABASE IF EXISTS dishow;
 CREATE DATABASE IF NOT EXISTS dishow;
+
+DROP USER IF EXISTS 'dishow'@'localhost';
+CREATE USER 'dishow'@'localhost' IDENTIFIED BY 'dishowpassword';
+GRANT ALL ON dishow.* TO 'dishow'@'localhost';
+
 USE dishow;
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(32) UNIQUE NOT NULL,
+  password VARCHAR(32) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS universities (
   id INT PRIMARY KEY,
@@ -69,5 +79,8 @@ CREATE TABLE IF NOT EXISTS catalog_comments (
   star INT NOT NULL,
   detail VARCHAR(255) NULL,
   cid INT NOT NULL,
-  FOREIGN KEY (cid) REFERENCES catalogs(id) ON DELETE RESTRICT
+  uid INT NOT NULL,
+  anonymous BOOL NOT NULL,
+  FOREIGN KEY (cid) REFERENCES catalogs(id) ON DELETE RESTRICT,
+  FOREIGN KEY (uid) REFERENCES users(id) ON DELETE RESTRICT
 );

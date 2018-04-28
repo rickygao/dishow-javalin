@@ -22,13 +22,22 @@ internal class Canteen(id: EntityID<Int>) : IntEntity(id) {
     var longitude by Canteens.longitude
     var latitude by Canteens.latitude
     var university by University referencedOn Canteens.uid
+    val catalogs by Catalog referrersOn Catalogs.cid
 }
+
+internal fun Canteen.toMapWithDetails() = mapOf(
+        "id" to id.value,
+        "name" to name,
+        "location" to location,
+        "longitude" to longitude,
+        "latitude" to latitude,
+        "catalogs" to catalogs.map(Catalog::toMap)
+)
 
 internal fun Canteen.toMap() = mapOf(
         "id" to id.value,
         "name" to name,
         "location" to location,
         "longitude" to longitude,
-        "latitude" to latitude,
-        "uid" to university.id.value
+        "latitude" to latitude
 )

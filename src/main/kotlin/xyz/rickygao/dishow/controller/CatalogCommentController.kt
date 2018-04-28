@@ -1,13 +1,9 @@
 package xyz.rickygao.dishow.controller
 
 import io.javalin.Context
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import xyz.rickygao.dishow.bodyAsClass
-import xyz.rickygao.dishow.model.Catalog
-import xyz.rickygao.dishow.model.CatalogComment
-import xyz.rickygao.dishow.model.CatalogComments
-import xyz.rickygao.dishow.model.toMap
+import xyz.rickygao.dishow.model.*
 
 object CatalogCommentController {
 
@@ -19,27 +15,25 @@ object CatalogCommentController {
 
     fun getCatalogCommentsByCatalog(ctx: Context) {
         ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
-            transaction { CatalogComment.find(CatalogComments.cid eq cid).map(CatalogComment::toMap) }
-        }.orEmpty().let {
-            mapOf("avg_star" to if (it.isEmpty()) 0.0 else it.sumBy { it["star"] as Int }.toDouble() / it.size,
-                    "comments" to it)
-        })
+            transaction { Catalog[cid].toMapOnlyComments() }
+        }.orEmpty())
     }
 
-    private data class CatalogCommentBody(val star: Int, val detail: String? = null)
+    private data class CatalogCommentBody(val star: Int, val detail: String? = null, val anonymous: Boolean)
 
     fun postCatalogComment(ctx: Context) {
         ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
             ctx.bodyAsClass<CatalogCommentBody>().let { body ->
-                mapOf("id" to transaction {
+                transaction {
                     CatalogComment.new {
                         this.star = body.star
                         this.detail = body.detail
                         this.catalog = Catalog[cid]
-                    }.id.value
-                })
+                        this.user = User[ctx.attribute<Int>("id")]
+                        this.anonymous = body.anonymous
+                    }
+                }
             }
-        }.orEmpty())
+        }.let { mapOf("id" to it?.id?.value) })
     }
-
 }

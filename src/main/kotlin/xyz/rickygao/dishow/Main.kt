@@ -1,8 +1,6 @@
 package xyz.rickygao.dishow
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.javalin.ApiBuilder.*
 import io.javalin.Javalin
@@ -26,44 +24,28 @@ fun main(args: Array<String>) {
             .routes {
 
                 path("/") {
+                    path("/users/username/:username/password/:password") {
+                        get(UserController::getUserByUsernameAndPassword)
+                        put(UserController::putUserByUsernameAndPassword)
+                    }
+
                     path("/universities") {
                         get(UniversityController::getAllUniversities)
                         path("/:university-id") {
                             get(UniversityController::getUniversityById)
-                            path("/canteens") {
-                                get(CanteenController::getCanteensByUniversity)
-                                path("/name/:canteen-name") {
-                                    get(CanteenController::getCanteensByUniversityAndName)
-                                }
-                            }
-                        }
-                        path("/name/:university-name") {
-                            get(UniversityController::getUniversitiesByName)
                         }
                     }
 
                     path("/canteens/:canteen-id") {
                         get(CanteenController::getCanteenById)
-                        path("/catalogs") {
-                            get(CatalogController::getCatalogsByCanteen)
-                            path("/name/:catalog-name") {
-                                get(CatalogController::getCatalogsByCanteenAndName)
-                            }
-                        }
                     }
 
                     path("/catalogs") {
                         path("/:catalog-id") {
                             get(CatalogController::getCatalogById)
-                            path("/dishes") {
-                                get(DishController::getDishesByCatalog)
-                                path("/name/:dish-name") {
-                                    get(DishController::getDishesByCatalogAndName)
-                                }
-                            }
                             path("/comments") {
                                 get(CatalogCommentController::getCatalogCommentsByCatalog)
-                                post(CatalogCommentController::postCatalogComment)
+                                post(CatalogCommentController::postCatalogComment, listOf(RealRole.USER))
                             }
                         }
                         path("/comments/:catalog-comment-id") {

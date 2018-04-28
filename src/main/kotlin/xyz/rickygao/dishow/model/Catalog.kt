@@ -18,11 +18,27 @@ internal class Catalog(id: EntityID<Int>) : IntEntity(id) {
     var name by Catalogs.name
     var location by Catalogs.location
     var canteen by Canteen referencedOn Catalogs.cid
+    val comments by CatalogComment referrersOn CatalogComments.cid
+    val dishes by Dish referrersOn Dishes.cid
+    val avgStar get() = comments.asSequence().map(CatalogComment::star).average().takeIf(Double::isFinite)
 }
+
+internal fun Catalog.toMapWithDetails() = mapOf(
+        "id" to id.value,
+        "name" to name,
+        "location" to location,
+        "avg_star" to avgStar,
+        "dishes" to dishes.map(Dish::toMap)
+)
 
 internal fun Catalog.toMap() = mapOf(
         "id" to id.value,
         "name" to name,
         "location" to location,
-        "cid" to canteen.id.value
+        "avg_star" to avgStar
+)
+
+internal fun Catalog.toMapOnlyComments() = mapOf(
+        "avg_star" to avgStar,
+        "comments" to comments.map(CatalogComment::toMap)
 )

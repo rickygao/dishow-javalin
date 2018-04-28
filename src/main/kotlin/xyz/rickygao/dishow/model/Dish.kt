@@ -24,6 +24,5 @@ internal class Dish(id: EntityID<Int>) : IntEntity(id) {
 internal fun Dish.toMap() = mapOf(
         "id" to id.value,
         "name" to name,
-        "price" to price,
-        "cid" to canteen.id.value
+        "price" to price
 )
