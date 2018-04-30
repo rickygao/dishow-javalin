@@ -18,7 +18,7 @@ internal class Dish(id: EntityID<Int>) : IntEntity(id) {
 
     var name by Dishes.name
     var price by Dishes.price
-    var canteen by Catalog referencedOn Dishes.cid
+    var catalog by Catalog referencedOn Dishes.cid
 }
 
 internal fun Dish.toMap() = mapOf(

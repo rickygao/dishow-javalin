@@ -8,21 +8,21 @@ import xyz.rickygao.dishow.model.*
 object CatalogCommentController {
 
     fun getCatalogCommentById(ctx: Context) {
-        ctx.json(ctx.param("catalog-comment-id")?.toInt()?.let { ccid ->
+        ctx.param("catalog-comment-id")?.toInt()?.let { ccid ->
             transaction { CatalogComment[ccid].toMap() }
-        }.orEmpty())
+        }.orEmpty().let(ctx::json)
     }
 
     fun getCatalogCommentsByCatalog(ctx: Context) {
-        ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
+        ctx.param("catalog-id")?.toInt()?.let { cid ->
             transaction { Catalog[cid].toMapOnlyComments() }
-        }.orEmpty())
+        }.orEmpty().let(ctx::json)
     }
 
     private data class CatalogCommentBody(val star: Int, val detail: String? = null, val anonymous: Boolean)
 
     fun postCatalogComment(ctx: Context) {
-        ctx.json(ctx.param("catalog-id")?.toInt()?.let { cid ->
+        ctx.param("catalog-id")?.toInt()?.let { cid ->
             ctx.bodyAsClass<CatalogCommentBody>().let { body ->
                 transaction {
                     CatalogComment.new {
@@ -31,9 +31,9 @@ object CatalogCommentController {
                         this.catalog = Catalog[cid]
                         this.user = User[ctx.attribute<Int>("id")]
                         this.anonymous = body.anonymous
-                    }
+                    }.toIdMap()
                 }
             }
-        }.let { mapOf("id" to it?.id?.value) })
+        }.orEmpty().let(ctx::json)
     }
 }

@@ -3,6 +3,7 @@ package xyz.rickygao.dishow.controller
 import io.javalin.Context
 
 object ErrorController {
+
     fun badRequest(ctx: Context) {
         ctx.result("Bad request")
     }
@@ -14,4 +15,5 @@ object ErrorController {
     fun unauthorized(ctx: Context) {
         ctx.result("Unauthorized")
     }
+
 }

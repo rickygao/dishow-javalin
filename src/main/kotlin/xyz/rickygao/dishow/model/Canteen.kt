@@ -25,7 +25,7 @@ internal class Canteen(id: EntityID<Int>) : IntEntity(id) {
     val catalogs by Catalog referrersOn Catalogs.cid
 }
 
-internal fun Canteen.toMapWithDetails() = mapOf(
+internal fun Canteen.toMapWithChildren() = mapOf(
         "id" to id.value,
         "name" to name,
         "location" to location,

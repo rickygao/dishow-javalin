@@ -8,9 +8,9 @@ import xyz.rickygao.dishow.model.toMap
 object DishController {
 
     fun getDishById(ctx: Context) {
-        ctx.json(ctx.param(":dish-id")?.toInt()?.let {
+        ctx.param(":dish-id")?.toInt()?.let {
             transaction { Dish[it].toMap() }
-        }.orEmpty())
+        }.orEmpty().let(ctx::json)
     }
 
 }

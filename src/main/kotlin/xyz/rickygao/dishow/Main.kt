@@ -33,11 +33,19 @@ fun main(args: Array<String>) {
                         get(UniversityController::getAllUniversities)
                         path("/:university-id") {
                             get(UniversityController::getUniversityById)
+                            path("/catalogs") {
+                                get(CatalogController::getCatalogsByUniversityAndName)
+                            }
                         }
                     }
 
-                    path("/canteens/:canteen-id") {
-                        get(CanteenController::getCanteenById)
+                    path("/canteens") {
+                        path("/:canteen-id") {
+                            get(CanteenController::getCanteenById)
+                            path("/catalogs") {
+                                get(CatalogController::getCatalogsByCanteenAndName)
+                            }
+                        }
                     }
 
                     path("/catalogs") {

@@ -23,7 +23,7 @@ internal class Catalog(id: EntityID<Int>) : IntEntity(id) {
     val avgStar get() = comments.asSequence().map(CatalogComment::star).average().takeIf(Double::isFinite)
 }
 
-internal fun Catalog.toMapWithDetails() = mapOf(
+internal fun Catalog.toMapWithChildren() = mapOf(
         "id" to id.value,
         "name" to name,
         "location" to location,
@@ -41,4 +41,12 @@ internal fun Catalog.toMap() = mapOf(
 internal fun Catalog.toMapOnlyComments() = mapOf(
         "avg_star" to avgStar,
         "comments" to comments.map(CatalogComment::toMap)
+)
+
+internal fun Catalog.toMapWithParent() = mapOf(
+        "id" to id.value,
+        "name" to name,
+        "location" to location,
+        "avg_star" to avgStar,
+        "canteen" to canteen.toMap()
 )

@@ -24,7 +24,7 @@ internal class University(id: EntityID<Int>) : IntEntity(id) {
     val canteens by Canteen referrersOn Canteens.uid
 }
 
-internal fun University.toMapWithDetails() = mapOf(
+internal fun University.toMapWithChildren() = mapOf(
         "id" to id.value,
         "name" to name,
         "location" to location,
