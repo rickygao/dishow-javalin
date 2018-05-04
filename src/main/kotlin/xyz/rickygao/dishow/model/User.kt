@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 
 internal object Users : IdTable<Int>("users") {
     override val id = integer("id").primaryKey().autoIncrement().entityId()
-    val username = varchar("username", 32)
+    val username = varchar("username", 32).uniqueIndex()
     val password = varchar("password", 32)
 }
 
