@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.40'
+    ext.kotlin_version = '1.2.41'
 
     repositories {
         mavenCentral()
@@ -28,8 +28,8 @@ dependencies {
     compile 'org.jetbrains.exposed:exposed:0.10.1'
     compile 'mysql:mysql-connector-java:6.0.6'
     compile 'io.javalin:javalin:1.6.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.+'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+'
     compile 'org.slf4j:slf4j-simple:1.7.25'
 }
 
